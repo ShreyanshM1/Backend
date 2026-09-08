@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Students</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <h1>Students Directory</h1>
+    <a class="newStud" href="/students/new">
+      <button>Add New Student</button>
+    </a>
+    <% for(student of students){ %>
+    <div class="stuInfo student-card">
+      <h2 class="name">
+        <a href="http://localhost:8080/students/<%= student.id %>"
+          ><%= student.name %></a
+        >
+      </h2>
+      <h4 class="branch">Branch : <%= student.branch %></h4>
+      <h4 class="year">Year : <%= student.year %></h4>
+      <h4 class="email">Email : <%= student.email %></h4>
+
+      <div class="actions">
+        <a href="/students/<%= student.id %>/edit">Edit</a>
+
+        <form method="post" action="/students/<%= student.id %>?_method=DELETE">
+          <button
+            onclick="return confirm('Are you sure you want to delete this student')"
+          >
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+    <br />
+    <% } %>
+    <br />
+
+    <form action="/students" method="get" class="search-form">
+      <input type="text" name="name" placeholder="Search by name" />
+      <input type="text" name="branch" placeholder="Branch" />
+      <input type="number" name="year" placeholder="Year" />
+      <button type="submit">Search</button>
+    </form>
+    <br />
+    <a href="http://localhost:8080/students/new"
+      >Create New Student Directory</a
+    >
+  </body>
+</html>

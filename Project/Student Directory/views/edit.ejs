@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit/Update Student</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <h2>Edit Student Directory</h2>
+    <p>Student id: <%= student.id %></p>
+    <p>Student username: <%= student.name %></p>
+    <p>Student branch: <%= student.branch %></p>
+    <p>Student year: <%= student.year %></p>
+    <hr />
+    <h2>Update/Edit</h2>
+    <form method="post" action="/students/<%= student.id %>?_method=PATCH">
+      <input type="text" name="name" value="<%= student.name %>" />
+      &nbsp;&nbsp;&nbsp;
+      <input type="text" name="branch" value="<%= student.branch %>" />
+      &nbsp;&nbsp;&nbsp;
+      <input type="number" name="year" value="<%= student.year %>" />
+      &nbsp;&nbsp;&nbsp;
+      <input type="email" name="email" value="<%= student.email %>" />
+      <button>Submit</button>
+    </form>
+    <a href="/students">
+      <button type="button">Back to Students</button>
+    </a>
+  </body>
+</html>
