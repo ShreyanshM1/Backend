@@ -3,6 +3,8 @@ const app = express();
 const port = 8080;
 const path = require("path");
 const methodOverride = require("method-override");
+const mongoose = require("mongoose");
+const Student = require("./models/student.js");
 
 app.set("viewengine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
@@ -10,19 +12,37 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
-let students = [
-  { id: 1, name: "Rahul", branch: "CSE", year: 3, email: "rahul@gmail.com" },
-  { id: 2, name: "Aman", branch: "AIML", year: 2, email: "aman@gmail.com" },
-  { id: 3, name: "Priya", branch: "CSE", year: 4, email: "priya@gmail.com" },
-];
+main()
+  .then((res) => {
+    console.log("connection successful");
+  })
+  .catch((err) => console.log(err));
+
+async function main() {
+  await mongoose.connect("mongodb://127.0.0.1:27018/studentDirectory");
+}
+
+async function addStudent() {
+  let student = new Student({
+    name: "Rahul",
+    branch: "CSE",
+    year: 3,
+    email: "rahul@gmail.com",
+  });
+
+  await student.save();
+  console.log("student saved successfully");
+}
+
+addStudent();
 
 app.get("/home", (req, res) => {
   res.send("Welcome to students directory");
 });
 
-app.get("/students", (req, res) => {
+app.get("/students", async (req, res) => {
   let { name, branch, year } = req.query;
-  let filteredStudents = students;
+  let filteredStudents = await Student.find();
   if (name) {
     filteredStudents = filteredStudents.filter((s) =>
       s.name.toLowerCase().includes(name.toLowerCase())
@@ -43,7 +63,7 @@ app.get("/students/new", (req, res) => {
   res.render("new.ejs", { students });
 });
 
-app.post("/students", (req, res) => {
+app.post("/students", async (req, res) => {
   let { name, branch, year, email } = req.body;
 
   if (!name || !branch || !year || !email) {
@@ -54,7 +74,12 @@ app.post("/students", (req, res) => {
     return res.send("Year must be between 1 and 4");
   }
 
-  students.push({ name, branch, year, email });
+  let newStudent = new Student({
+    name,branch,year,email
+  });
+
+  await newStudent.save();
+
   res.redirect("students");
 });
 

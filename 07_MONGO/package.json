@@ -1,5 +1,5 @@
 {
-  "name": "project",
+  "name": "07_mongo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,14 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Shrayansh Mishra",
+  "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "ejs": "^6.0.1",
     "express": "^5.2.1",
-    "method-override": "^3.0.0",
-    "mongoose": "^9.10.0",
-    "uuid": "^14.0.2"
+    "mongoose": "^9.10.1"
   }
 }
